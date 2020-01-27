@@ -4,5 +4,13 @@
   "main": "index.js",
   "repository": "git@pooldao.github.com:PoolDAO/pooldao-js.git",
   "author": "<pooldao.dev@outlook.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/preset-env": "^7.8.3",
+    "jest": "^25.1.0"
+  },
+  "dependencies": {
+    "typescript": "^3.7.5",
+    "web3": "^1.2.5-rc.0"
+  }
 }
