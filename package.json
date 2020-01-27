@@ -6,11 +6,19 @@
   "author": "<pooldao.dev@outlook.com>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/jest": "^24.9.1",
     "jest": "^25.1.0"
   },
   "dependencies": {
     "typescript": "^3.7.5",
-    "web3": "^1.2.5-rc.0"
+    "web3": "^1.2.5-rc.0",
+    "web3-eth-contract": "^1.2.5-rc.0",
+    "web3-utils": "^1.2.5-rc.0"
+  },
+  "scripts": {
+    "test": "jest"
   }
 }
