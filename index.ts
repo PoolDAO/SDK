@@ -8,13 +8,17 @@ class Pooldao {
   public web3: Web3;
   public proxy: Contract;
 
-  constructor({ host, contractAddresses }: PooldaoOptions) {
+  constructor({ host, proxyAddress }: PooldaoOptions) {
     this.web3 = new Web3(host);
-    this.proxy = new this.web3.eth.Contract(proxyAbi.abi as any, contractAddresses.proxy);
+    this.proxy = new this.web3.eth.Contract(proxyAbi.abi as any, proxyAddress);
   }
 
   public async getAbi(abiName: AbiName) {
     return this.proxy.methods.getAbi(abiName).call();
+  }
+
+  public async getAddress(abiName: AbiName) {
+    return this.proxy.methods.getContract(abiName).call();
   }
 }
 
