@@ -1,4 +1,4 @@
-import Pooldao from './index';
+import Pooldao from './Pooldao';
 
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';

@@ -1,4 +1,4 @@
-import Pooldao from './index';
+import Pooldao from './Pooldao';
 import { SendMethod } from './types';
 import { Contract } from 'web3-eth-contract';
 
