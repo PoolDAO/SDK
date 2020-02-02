@@ -1,6 +1,6 @@
 {
   "name": "@pooldao/js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "./build/index.js",
   "repository": "git@pooldao.github.com:PoolDAO/pooldao-js.git",
   "author": "<pooldao.dev@outlook.com>",
