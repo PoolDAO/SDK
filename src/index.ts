@@ -5,7 +5,7 @@ import { AbiItem } from 'web3-utils';
 import Operator from './Operator';
 import User from './User';
 import Oracle from './Oracle';
-import { decompressABI } from '../utils';
+import { decompressABI } from './utils';
 import proxyAbi from '../proxyAbi.json';
 import { PooldaoOptions, AbiName, ContractDetail } from './types';
 
