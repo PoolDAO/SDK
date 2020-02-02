@@ -6,7 +6,7 @@ import Operator from './Operator';
 import User from './User';
 import Oracle from './Oracle';
 import { decompressABI } from './utils';
-import proxyAbi from '../proxyAbi.json';
+import proxyAbi from './proxyAbi.json';
 import { PooldaoOptions, AbiName, ContractDetail } from './types';
 
 class Pooldao {
