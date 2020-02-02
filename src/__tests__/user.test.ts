@@ -1,4 +1,4 @@
-import Pooldao from '../index';
+import Pooldao from '../Pooldao';
 
 import { TEST_OPERATOR } from './testAccounts';
 

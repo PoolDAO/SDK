@@ -1,4 +1,4 @@
-import Pooldao from '../index';
+import Pooldao from '../Pooldao';
 
 describe('pooldao', () => {
   let pooldao: Pooldao;
