@@ -6,7 +6,7 @@ export interface PooldaoOptions {
   proxyAddress: string;
 }
 
-export type AbiName = 'OperatorManager' | 'NodeManager' | 'Oracle' | 'PoolETHToken';
+export type AbiName = 'OperatorManager' | 'NodeManager' | 'Oracle' | 'PoolETHToken' | 'Node';
 
 export interface ContractDetail {
   name: AbiName;

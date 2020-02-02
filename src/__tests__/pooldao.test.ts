@@ -2,6 +2,7 @@ import Pooldao from '../index';
 
 describe('pooldao', () => {
   let pooldao: Pooldao;
+  jest.setTimeout(80000)
 
   beforeAll(async () => {
     pooldao = new Pooldao({
