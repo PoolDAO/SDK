@@ -8,7 +8,7 @@ class Oracle {
     this.provider = pooldao;
   }
 
-  public reputationChange(operator: any, change: any): SendMethod {
+  public reputationChange(operator: string, change: string): SendMethod {
     return this.provider.contracts.Oracle?.contract.methods.reputationChange(operator, change);
   }
 
