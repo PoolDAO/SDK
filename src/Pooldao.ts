@@ -7,12 +7,13 @@ import User from './User';
 import Oracle from './Oracle';
 import { decompressABI } from './utils';
 import proxyAbi from './proxyAbi.json';
-import { PooldaoOptions, AbiName, ContractDetail } from './types';
+import { PooldaoOptions, AbiName, ContractDetail, OperatorInfo, NodeInfo } from './types';
 
 class Pooldao {
   public contractNames: AbiName[];
 
   public AbiNode?: AbiItem;
+  public AbiOperator?: AbiItem;
   public web3: Web3;
   public proxy: Contract;
   public contracts: Record<AbiName, ContractDetail | null>;
@@ -32,6 +33,7 @@ class Pooldao {
 
   public async init() {
     this.AbiNode = await this.getAbi('Node');
+    this.AbiOperator = await this.getAbi('Operator');
     for (const contractName of this.contractNames) {
       const address = await this.getAddress(contractName);
       const abi = await this.getAbi(contractName);
@@ -52,9 +54,112 @@ class Pooldao {
     return this.proxy.methods.getContract(abiName).call();
   }
 
-  public async getNodeContract(id: string) {
-    const node = await this.contracts.NodeManager?.contract.methods.getNodeByID(id).call();
-    return new this.web3.eth.Contract(this.AbiNode as AbiItem, node);
+  public async getNodeContract(nodeId: string) {
+    const nodeAddress = await this.contracts.NodeManager?.contract.methods.getNodeByID(nodeId).call();
+    return new this.web3.eth.Contract(this.AbiNode as AbiItem, nodeAddress);
+  }
+
+  public async getOperatorContract(operatorId: string) {
+    const operatorAddress = await this.contracts.OperatorManager?.contract.methods.getOperatorById(operatorId).call();
+    return new this.web3.eth.Contract(this.AbiOperator as AbiItem, operatorAddress);
+  }
+
+  public async getTotalOperator(): Promise<number> {
+    return this.contracts.OperatorManager?.contract.methods.getTotal().call();
+  }
+
+  public async getTotalNode(): Promise<number> {
+    return this.contracts.NodeManager?.contract.methods.getTotal().call();
+  }
+
+  public async getOperatorInfo(operatorId: string): Promise<OperatorInfo> {
+    const operatorContract = await this.getOperatorContract(operatorId);
+
+    const calls = [
+      'id',
+      'info',
+      'name',
+      'version',
+      'owner',
+      'depositTotal',
+      'reputation',
+      'totalNode',
+      'withdrawTotal'
+    ];
+
+    const result = (await Promise.all(calls.map(methodName => operatorContract.methods[methodName]().call()))).reduce(
+      (r, c, i) => ({
+        ...r,
+        [calls[i]]: c
+      }),
+      {}
+    );
+
+    console.log(result);
+
+    result.nodeIDs = await Promise.all(
+      [...new Array(Number(result.totalNode))].map((_, nodeIndex) => operatorContract.methods.nodeIDs(nodeIndex).call())
+    );
+
+    return result;
+  }
+
+  public async getNodeInfo(nodeId: string): Promise<NodeInfo> {
+    const nodeContract = await this.getNodeContract(nodeId);
+
+    const calls = [
+      'balance',
+      'dao',
+      'daoFee',
+      'daoFeePercentage',
+      'depositCapacity',
+      'deposit_data',
+      'duration',
+      'feePercentage',
+      'id',
+      'info',
+      'minShardingDeposit',
+      'name',
+      'nodeManagerApi',
+      'operator',
+      'operatorDeposit',
+      'owner',
+      'ownerFee',
+      'partner',
+      'partnerFee',
+      'partnerFeePercentage',
+      'reward',
+      'status',
+      'userDepositTotal',
+      'validatorPubkey',
+      'validatorSignature',
+      'version',
+      'withdrawal_credentials'
+    ];
+
+    const result = (await Promise.all(calls.map(methodName => nodeContract.methods[methodName]().call()))).reduce(
+      (r, c, i) => ({
+        ...r,
+        [calls[i]]: c
+      }),
+      {}
+    );
+
+    result.nodeIDs = Promise.all(
+      ['withdrawList', 'depositList', 'statusTime'].map(async (methodName) => {
+        return await Promise.all(
+          [...new Array(Number(result.totalNode))].map((_, nodeIndex) =>
+          nodeContract.methods.nodeIDs(nodeIndex).call()
+          )
+        );
+      })
+    );
+
+    return result;
+
+    // 'withdrawList',
+    // 'depositList',
+    // 'statusTime',
   }
 }
 

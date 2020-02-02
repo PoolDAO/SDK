@@ -27,4 +27,12 @@ describe('pooldao', () => {
     // expect(await pooldao.getAddress('Oracle')).toBeDefined();
     // expect(await pooldao.getAddress('PoolETHToken')).toBeDefined();
   });
+
+  it('getOperatorInfo', async () => {
+    console.log(await pooldao.getOperatorInfo('0'))
+  });
+
+  it('getNodeInfo', async () => {
+    console.log(await pooldao.getNodeInfo('1'))
+  });
 });
