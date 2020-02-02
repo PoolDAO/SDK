@@ -94,7 +94,10 @@ async function run() {
 
   const nodeContract = await pooldao.getNodeContract('15');
 
-  await pooldao.operator.revoked();
+  await pooldao.operator.revoked().send({
+    from: '....',
+    gas: 1000000000
+  });
 }
 
 run();
@@ -123,7 +126,11 @@ async function run() {
 
   const nodeContract = await pooldao.getNodeContract('15');
 
-  await pooldao.user.deposit();
+  await pooldao.user.deposit().send({
+    from: '....',
+    value: 1000000,
+    gas: 1000000000
+  });
 }
 
 run();
