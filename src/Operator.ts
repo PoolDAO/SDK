@@ -1,5 +1,6 @@
 import Pooldao from './index';
-import { ContractSendMethod } from 'web3-eth-contract';
+import { SendMethod } from './types';
+import { Contract } from 'web3-eth-contract';
 
 class Operator {
   private provider: Pooldao;
@@ -8,22 +9,22 @@ class Operator {
     this.provider = pooldao;
   }
 
-  public createOperator(name: string): ContractSendMethod {
+  public createOperator(name: string): SendMethod {
     return this.provider.contracts.OperatorManager?.contract.methods.createOperator(name);
   }
 
-  public createNode(info: string, duration: number, feePercentage: number, partner: string): ContractSendMethod {
+  public createNode(info: string, duration: number, feePercentage: number, partner: string): SendMethod {
     return this.provider.contracts.NodeManager?.contract.methods.createNode(info, duration, feePercentage, partner);
   }
 
   public initNode(
-    id: any,
+    id: string,
     validatorPubkey: string,
     validatorSignature: string,
     withdrawalCredentials: string,
     depositData: string
-  ): ContractSendMethod {
-    return this.provider.contracts.NodeManager?.contract.methods.createNode(
+  ): SendMethod {
+    return this.provider.contracts.NodeManager?.contract.methods.initNode(
       id,
       validatorPubkey,
       validatorSignature,
@@ -32,14 +33,12 @@ class Operator {
     );
   }
 
-  public revoked(id: any): ContractSendMethod {
-    const nodeContract = this.provider.getNodeContract(id);
-    return nodeContract.methods.revoked();
+  public revoked(contract: Contract): SendMethod {
+    return contract.methods.revoked();
   }
 
-  public startStaking(id: any): ContractSendMethod {
-    const nodeContract = this.provider.getNodeContract(id);
-    return nodeContract.methods.startStaking();
+  public startStaking(contract: Contract): SendMethod {
+    return contract.methods.startStaking();
   }
 }
 

@@ -1,13 +1,13 @@
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
-import { AbiItem, toWei } from 'web3-utils';
+import { AbiItem } from 'web3-utils';
 
 import Operator from './Operator';
 import User from './User';
 import Oracle from './Oracle';
 import { decompressABI } from '../utils';
 import proxyAbi from '../proxyAbi.json';
-import { PooldaoOptions, AbiName, ContractDetail } from '../types';
+import { PooldaoOptions, AbiName, ContractDetail } from './types';
 
 class Pooldao {
   public contractNames: AbiName[];
@@ -52,8 +52,8 @@ class Pooldao {
     return this.proxy.methods.getContract(abiName).call();
   }
 
-  public getNodeContract(id: any) {
-    const node = this.contracts.NodeManager?.contract.methods.getNodeByID(id).call();
+  public async getNodeContract(id: string) {
+    const node = await this.contracts.NodeManager?.contract.methods.getNodeByID(id).call();
     return new this.web3.eth.Contract(this.AbiNode as AbiItem, node);
   }
 }

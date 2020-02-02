@@ -1,5 +1,5 @@
 import Pooldao from './index';
-import { ContractSendMethod } from 'web3-eth-contract';
+import { SendMethod } from './types';
 
 class Oracle {
   private provider: Pooldao;
@@ -8,15 +8,15 @@ class Oracle {
     this.provider = pooldao;
   }
 
-  public reputationChange(operator: any, change: any): ContractSendMethod {
+  public reputationChange(operator: any, change: any): SendMethod {
     return this.provider.contracts.Oracle?.contract.methods.reputationChange(operator, change);
   }
 
-  public validatorExit(validatorPubkey: string): ContractSendMethod {
+  public validatorExit(validatorPubkey: string): SendMethod {
     return this.provider.contracts.Oracle?.contract.methods.validatorExit(validatorPubkey);
   }
 
-  public validatorSettlement(validatorPubkey: string, finalBalance: string): ContractSendMethod {
+  public validatorSettlement(validatorPubkey: string, finalBalance: string): SendMethod {
     return this.provider.contracts.Oracle?.contract.methods.validatorSettlement(validatorPubkey, finalBalance);
   }
 }

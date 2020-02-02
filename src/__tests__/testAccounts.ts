@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import Web3 from 'web3';
 
 const privatekeys = [
@@ -20,5 +22,5 @@ for (var i = 0; i < privatekeys.length; i++) {
 }
 
 export const TEST_TRUST = web3.eth.accounts.wallet[1].address;
-export const TEST_OPERATOR = web3.eth.accounts.wallet[5].address;
+export const TEST_OPERATOR = web3.eth.accounts.wallet[6].address;
 export const TEST_USER = web3.eth.accounts.wallet[3].address;
