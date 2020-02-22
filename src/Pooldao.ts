@@ -21,7 +21,10 @@ class Pooldao {
   public user: User;
   public oracle: Oracle;
 
-  constructor({ host, proxyAddress }: PooldaoOptions) {
+  constructor({
+    host = 'http://47.106.144.61:8545',
+    proxyAddress = '0x1e92877766c94c9913A4EcC90B45E18968dc662D'
+  }: PooldaoOptions = {}) {
     this.web3 = new Web3(host);
     this.proxy = new this.web3.eth.Contract(proxyAbi.abi as any, proxyAddress);
     this.contractNames = ['OperatorManager', 'NodeManager', 'Oracle', 'PoolETHToken'];
@@ -146,11 +149,9 @@ class Pooldao {
     );
 
     result.nodeIDs = Promise.all(
-      ['withdrawList', 'depositList', 'statusTime'].map(async (methodName) => {
+      ['withdrawList', 'depositList', 'statusTime'].map(async methodName => {
         return await Promise.all(
-          [...new Array(Number(result.totalNode))].map((_, nodeIndex) =>
-          nodeContract.methods.nodeIDs(nodeIndex).call()
-          )
+          [...new Array(Number(result.totalNode))].map((_, nodeIndex) => nodeContract.methods.nodeIDs(nodeIndex).call())
         );
       })
     );

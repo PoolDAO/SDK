@@ -4,8 +4,8 @@ import { PromiEvent, TransactionReceipt } from 'web3-core';
 import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
 
 export interface PooldaoOptions {
-  host: string;
-  proxyAddress: string;
+  host?: string;
+  proxyAddress?: string;
 }
 
 export type AbiName = 'OperatorManager' | 'NodeManager' | 'Oracle' | 'PoolETHToken' | 'Node' | 'Operator';

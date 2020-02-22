@@ -1,1 +1,1 @@
-export { default as Pooldao } from './Pooldao';
+export { default } from './Pooldao';
