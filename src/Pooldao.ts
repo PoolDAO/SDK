@@ -35,18 +35,30 @@ class Pooldao {
   }
 
   public async init() {
-    this.AbiNode = await this.getAbi('Node');
-    this.AbiOperator = await this.getAbi('Operator');
+    const requests = [];
+    requests.push(
+      this.getAbi('Node').then(result => {
+        this.AbiNode = result;
+      })
+    );
+    requests.push(
+      this.getAbi('Operator').then(result => {
+        this.AbiOperator = result;
+      })
+    );
     for (const contractName of this.contractNames) {
-      const address = await this.getAddress(contractName);
-      const abi = await this.getAbi(contractName);
-      this.contracts[contractName] = {
-        name: contractName,
-        address,
-        abi,
-        contract: new this.web3.eth.Contract(abi, address)
-      };
+      requests.push(
+        Promise.all([this.getAddress(contractName), this.getAbi(contractName)]).then(([address, abi]) => {
+          this.contracts[contractName] = {
+            name: contractName,
+            address,
+            abi,
+            contract: new this.web3.eth.Contract(abi, address)
+          };
+        })
+      );
     }
+    await Promise.all(requests);
   }
 
   public async getAbi(abiName: AbiName): Promise<AbiItem> {
@@ -161,6 +173,14 @@ class Pooldao {
     // 'withdrawList',
     // 'depositList',
     // 'statusTime',
+  }
+
+  public getEthBalance(address: string) {
+    return this.web3.eth.getBalance(address);
+  }
+
+  public getPoolEthBalance(address: string) {
+    return this.contracts.PoolETHToken?.contract.methods.balanceOf(address).call();
   }
 }
 
