@@ -4,7 +4,7 @@ import { PromiEvent, TransactionReceipt } from 'web3-core';
 import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
 
 export interface PooldaoOptions {
-  host?: string;
+  provider?: any;
   proxyAddress?: string;
 }
 

@@ -21,11 +21,8 @@ class Pooldao {
   public user: User;
   public oracle: Oracle;
 
-  constructor({
-    host = 'http://47.106.144.61:8545',
-    proxyAddress = '0x1e92877766c94c9913A4EcC90B45E18968dc662D'
-  }: PooldaoOptions = {}) {
-    this.web3 = new Web3(host);
+  constructor({ provider, proxyAddress = '0x1e92877766c94c9913A4EcC90B45E18968dc662D' }: PooldaoOptions = {}) {
+    this.web3 = new Web3(provider);
     this.proxy = new this.web3.eth.Contract(proxyAbi.abi as any, proxyAddress);
     this.contractNames = ['OperatorManager', 'NodeManager', 'Oracle', 'PoolETHToken'];
     this.contracts = this.contractNames.reduce((r, k) => ({ ...r, [k]: null }), {}) as Record<AbiName, null>;
@@ -175,11 +172,11 @@ class Pooldao {
     // 'statusTime',
   }
 
-  public getEthBalance(address: string) {
+  public getEthBalance(address: string): Promise<string> {
     return this.web3.eth.getBalance(address);
   }
 
-  public getPoolEthBalance(address: string) {
+  public getPoolEthBalance(address: string): Promise<string> {
     return this.contracts.PoolETHToken?.contract.methods.balanceOf(address).call();
   }
 }
