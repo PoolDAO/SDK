@@ -1,55 +1,59 @@
+import Web3 from 'web3';
 import Pooldao from '../Pooldao';
 
-import { TEST_OPERATOR } from './testAccounts';
+import { TEST_OPERATOR, TEST } from './testAccounts';
 
 describe('operator', () => {
   let pooldao: Pooldao;
+  const Ether = Math.pow(10, 18);
 
   beforeAll(async () => {
-    jest.setTimeout(100000);
+    jest.setTimeout(1000000);
 
     pooldao = new Pooldao({
-      host: 'http://47.106.144.61:8545',
-      proxyAddress: '0x1e92877766c94c9913A4EcC90B45E18968dc662D'
+      provider: new Web3.providers.HttpProvider('http://47.106.144.61:8545'),
+      proxyAddress: '0x3bc5E5f63a91C0B23Ee82733321a971Add3c2Cb7'
     });
 
     await pooldao.init();
   });
 
   it('createOperator', async () => {
-    const sendMethod = pooldao.operator.createOperator('哈哈哈哈');
+    const sendMethod = pooldao.operator.createOperator('哈哈哈哈1');
 
     const result = await sendMethod.send({
-      from: TEST_OPERATOR,
-      gas: 1000000000
+      from: TEST[7],
+      gas: 1000000
     });
+
+    console.log(result);
   });
 
   it('createNode', async () => {
-    const result = await pooldao.operator
-      .createNode('哈哈哈哈', 2, 30, '0x0000000000000000000000000000000000000000')
-      .send({
-        from: TEST_OPERATOR,
-        gas: 1000000000
-      });
+    const result = await pooldao.operator.createNode('77777', 3, 15).send({
+      from: TEST[7],
+      gas: 1000000000
+    });
 
     expect(result.status).toBe(true);
   });
 
-  it('initNode', async () => {
+  it.only('initNode', async () => {
     const result = await pooldao.operator
       .initNode(
-        '1',
-        '0x0000000000000000000000000000000000000000',
-        '0x0000000000000000000000000000000000000000',
-        '0x0000000000000000000000000000000000000000',
-        '0x0000000000000000000000000000000000000000'
+        '6',
+        '0x221111111111111111111111111111111111111',
+        '0x3322222222222222222222222222222222222222',
+        '0x4433333333333333333333333333333333333333',
+        '0x5544444444444444444444444444444444444444'
       )
       .send({
-        value: '4000000000000',
-        from: TEST_OPERATOR,
-        gas: 1000000000
+        value: 0.4 * Ether,
+        from: TEST[7],
+        gas: 1000000
       });
+
+    console.log(result);
   });
 
   it('revoked', async () => {
@@ -61,7 +65,7 @@ describe('operator', () => {
     console.log(result);
   });
 
-  it.only('startStaking', async () => {
+  it('startStaking', async () => {
     const contract = await pooldao.getNodeContract('15');
     const result = await pooldao.operator.startStaking(contract).send({
       from: TEST_OPERATOR,

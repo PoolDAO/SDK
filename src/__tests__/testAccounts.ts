@@ -3,16 +3,16 @@
 import Web3 from 'web3';
 
 const privatekeys = [
-  '0xfbb2dff8ba2a02a1a590d6c120ba0e3ecf5865e7727aad3f3c072aca970eeb0f',
-  '0xfd193817ab93c3f84dceffa88889819bc0d4ac741cb81d1db7f62d632c9ac40a',
-  '0xb966a6bddfae3a79aaa41c34934cd3378c2e0126608c5a1b131bea73c176563c',
-  '0x362661b390441a04b91ec8a94ea21a4419cbc55a9f975797dc36d4cbbe729d64',
-  '0xbc3576aa53800c3278bb327b3e386c5ec642214fabeab4ec95560c550566e23e',
-  '0x1df22d6e0c5b166e50aa6143e109263790ca27337cd5e31303cfd56e1a4a5bbd',
-  '0x53d18d5807bb9521d95e5f2b45d7a67d0b13b49d9ddc6733616e17ea930eb549',
-  '0x763458989f354da3f57232780f865cf8d7ac64e6997d4264a4af9130245bc8d0',
-  '0x42edef576abdb987c7f16e798e3c08655427ca07abfd754eb909934db4c03d6d',
-  '0x1fb8c41548649632d18b3181b5796cdf34ae1640cd25b6a78b5910d14baa1bef'
+  '0x671f8871a16f18524e0795cba2793fade1a8f94c0f7e9b140c9f3230e0801161',
+  '0xfb2d1b223d277456257529ac9a56640ab82a9e5ea409cd788e5f52f8905332e3',
+  '0xcbb69e72b5103c6fd40c5dd227a4309afbd08ce7adadf9d77f5b6d1d666ac742',
+  '0x323441960b52f366b2853df6859b9c1a973a61278d763dd58c30d566ef3356f6',
+  '0xd902f6763884eaee1d752c06510618906fcfb3f4291c1ad2ae56a4e4d438a952',
+  '0xc900d4716bc4f13d530eb6af6be342ae2b733276e96e6cb2cb158c23a099f293',
+  '0x027056bc87986b6d6c9bd06d0957326eca90664276bf2407d4cd5fa920c7aec2',
+  '0x602ffe156e4eb0e1d176cbd427344c7e6a2f8ebc1b7e51ff11268cacc5fa0f29',
+  '0x6d558da3e3462913d98c576df16a43f5d025b63c83b133ddcc393961c6c16143',
+  '0x92596faed4840814d695d7b77ba1ad10d417a182d823b06eed879d9b66061d0e'
 ];
 
 const web3 = new Web3(new Web3.providers.HttpProvider('http://47.106.144.61:8545'));
@@ -21,6 +21,19 @@ for (var i = 0; i < privatekeys.length; i++) {
   web3.eth.accounts.wallet.add(privatekeys[i]);
 }
 
-export const TEST_TRUST = web3.eth.accounts.wallet[1].address;
+export const TEST = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(index => web3.eth.accounts.wallet[index].address);
+// [
+//   '0x19660C819eF9951CDB4208Bb9631C3E3b1334984',
+//   '0x438bF5a338d04D6521Ab7f167f958703269c1F35',
+//   '0xC57496c978FAa963b5a8e4c5FAF12fC68a201B8c',
+//   '0xb14b61399790AF5B539f4Be50966007b20ab95E2',
+//   '0xb3c428015A001E860865E59B94ad8C13395f7971',
+//   '0x1D41bF01218d7e3Fb78fbb843e370028f070348D',
+//   '0x550b996b7633B823Fac339c3C6B6147429b7660d',
+//   '0x355fD32a664Ff862446C0723B4B1D184979cE635',
+//   '0xb446D06a5deaB1CACFdc9Eb767Afe8236A4BD673',
+//   '0x806334c880B4631F62A9321F7404630e27467D03'
+// ];
+// export const TEST_TRUST = web3.eth.accounts.wallet[1].address;
 export const TEST_OPERATOR = web3.eth.accounts.wallet[6].address;
 export const TEST_USER = web3.eth.accounts.wallet[3].address;

@@ -1,3 +1,4 @@
+import Web3 from 'web3';
 import Pooldao from '../Pooldao';
 
 import { TEST_OPERATOR } from './testAccounts';
@@ -9,7 +10,7 @@ describe('user', () => {
     jest.setTimeout(100000);
 
     pooldao = new Pooldao({
-      host: 'http://47.106.144.61:8545',
+      provider: new Web3.providers.HttpProvider('http://47.106.144.61:8545'),
       proxyAddress: '0x1e92877766c94c9913A4EcC90B45E18968dc662D'
     });
 

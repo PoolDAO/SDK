@@ -1,16 +1,17 @@
+import Web3 from 'web3';
 import Pooldao from '../Pooldao';
 
 describe('pooldao', () => {
   let pooldao: Pooldao;
-  jest.setTimeout(800000)
+  jest.setTimeout(800000);
 
   beforeAll(async () => {
     pooldao = new Pooldao({
-      host: 'http://47.106.144.61:8545',
+      provider: new Web3.providers.HttpProvider('http://47.106.144.61:8545'),
       proxyAddress: '0x1e92877766c94c9913A4EcC90B45E18968dc662D'
     });
 
-    await pooldao.init()
+    await pooldao.init();
   });
 
   it('getAbi', async () => {
@@ -29,10 +30,10 @@ describe('pooldao', () => {
   });
 
   it('getOperatorInfo', async () => {
-    console.log(await pooldao.getOperatorInfo('0'))
+    console.log(await pooldao.getOperatorInfo('0'));
   });
 
   it('getNodeInfo', async () => {
-    console.log(await pooldao.getNodeInfo('1'))
+    console.log(await pooldao.getNodeInfo('1'));
   });
 });

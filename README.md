@@ -73,6 +73,8 @@ run();
 
 注册节点
 
+duration 周期单位月 [1, 6];feePercentage 0 - 100;
+
 ### initNode(id: string, validatorPubkey: string, validatorSignature: string, withdrawalCredentials: string, depositData: string)
 
 抵押及初始化节点
@@ -126,7 +128,7 @@ async function run() {
 
   const nodeContract = await pooldao.getNodeContract('15');
 
-  await pooldao.user.deposit().send({
+  await pooldao.user.deposit(nodeContract).send({
     from: '....',
     value: 1000000,
     gas: 1000000000

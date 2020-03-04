@@ -21,7 +21,7 @@ class Pooldao {
   public user: User;
   public oracle: Oracle;
 
-  constructor({ provider, proxyAddress = '0x1e92877766c94c9913A4EcC90B45E18968dc662D' }: PooldaoOptions = {}) {
+  constructor({ provider, proxyAddress = '0x3bc5E5f63a91C0B23Ee82733321a971Add3c2Cb7' }: PooldaoOptions = {}) {
     this.web3 = new Web3(provider);
     this.proxy = new this.web3.eth.Contract(proxyAbi.abi as any, proxyAddress);
     this.contractNames = ['OperatorManager', 'NodeManager', 'Oracle', 'PoolETHToken'];
@@ -66,8 +66,11 @@ class Pooldao {
     return this.proxy.methods.getContract(abiName).call();
   }
 
-  public async getNodeContract(nodeId: string) {
-    const nodeAddress = await this.contracts.NodeManager?.contract.methods.getNodeByID(nodeId).call();
+  public async getNodeAddress(nodeId: string) {
+    return this.contracts.NodeManager?.contract.methods.getNodeByID(nodeId).call();
+  }
+
+  public getNodeContract(nodeAddress: string) {
     return new this.web3.eth.Contract(this.AbiNode as AbiItem, nodeAddress);
   }
 

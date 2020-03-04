@@ -1,27 +1,29 @@
+import Web3 from 'web3';
 import Pooldao from '../Pooldao';
 
-import { TEST_OPERATOR } from './testAccounts';
+import { TEST_OPERATOR, TEST } from './testAccounts';
 
 describe('user', () => {
   let pooldao: Pooldao;
+  const Ether = Math.pow(10, 18);
 
   beforeAll(async () => {
     jest.setTimeout(100000);
 
     pooldao = new Pooldao({
-      host: 'http://47.106.144.61:8545',
-      proxyAddress: '0x1e92877766c94c9913A4EcC90B45E18968dc662D'
+      provider: new Web3.providers.HttpProvider('http://47.106.144.61:8545'),
+      proxyAddress: '0x3bc5E5f63a91C0B23Ee82733321a971Add3c2Cb7'
     });
 
     await pooldao.init();
   });
 
-  it('deposit', async () => {
-    const contract = await pooldao.getNodeContract('15');
+  it.only('deposit', async () => {
+    const contract = pooldao.getNodeContract('0x424a7f6E900052e1E1e1BD6250007c1BD97d9FcC');
     const result = await pooldao.user.deposit(contract).send({
-      from: TEST_OPERATOR,
-      value: 1000000,
-      gas: 1000000000
+      from: TEST[6],
+      value: 1 * Ether,
+      gas: 1000000
     });
     console.log(result);
   });

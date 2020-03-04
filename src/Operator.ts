@@ -13,7 +13,14 @@ class Operator {
     return this.provider.contracts.OperatorManager?.contract.methods.createOperator(name);
   }
 
-  public createNode(info: string, duration: number, feePercentage: number, partner: string): SendMethod {
+  public createNode(
+    info: string,
+    duration: number,
+    feePercentage: number,
+    partner: string = '0x0000000000000000000000000000000000000000'
+  ): SendMethod {
+    if (duration < 1 || duration > 6) throw new Error('duration expect 1 - 6');
+    if (feePercentage < 0 || feePercentage > 100) throw new Error('feePercentage expect 0 - 100');
     return this.provider.contracts.NodeManager?.contract.methods.createNode(info, duration, feePercentage, partner);
   }
 
