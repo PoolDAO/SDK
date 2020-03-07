@@ -87,7 +87,7 @@ class Pooldao {
     return this.contracts.NodeManager?.contract.methods.getTotal().call();
   }
 
-  public async getOperatorInfo(operatorId: string): Promise<OperatorInfo> {
+  public async getOperatorInfo(operatorId: string, filterArray?: string[]): Promise<OperatorInfo> {
     const operatorContract = await this.getOperatorContract(operatorId);
 
     const calls = [
@@ -100,7 +100,10 @@ class Pooldao {
       'reputation',
       'totalNode',
       'withdrawTotal'
-    ];
+    ].filter(name => {
+      if (!filterArray) return true;
+      return filterArray.includes(name);
+    });
 
     const result = (await Promise.all(calls.map(methodName => operatorContract.methods[methodName]().call()))).reduce(
       (r, c, i) => ({
@@ -110,8 +113,6 @@ class Pooldao {
       {}
     );
 
-    console.log(result);
-
     result.nodeIDs = await Promise.all(
       [...new Array(Number(result.totalNode))].map((_, nodeIndex) => operatorContract.methods.nodeIDs(nodeIndex).call())
     );
@@ -119,8 +120,9 @@ class Pooldao {
     return result;
   }
 
-  public async getNodeInfo(nodeId: string): Promise<NodeInfo> {
-    const nodeContract = await this.getNodeContract(nodeId);
+  public async getNodeInfo(nodeId: string, filterArray?: string[]): Promise<NodeInfo> {
+    const nodeAddress = await this.getNodeAddress(nodeId);
+    const nodeContract = this.getNodeContract(nodeAddress);
 
     const calls = [
       'balance',
@@ -150,7 +152,10 @@ class Pooldao {
       'validatorSignature',
       'version',
       'withdrawal_credentials'
-    ];
+    ].filter(name => {
+      if (!filterArray) return true;
+      return filterArray.includes(name);
+    });
 
     const result = (await Promise.all(calls.map(methodName => nodeContract.methods[methodName]().call()))).reduce(
       (r, c, i) => ({
@@ -160,13 +165,13 @@ class Pooldao {
       {}
     );
 
-    result.nodeIDs = Promise.all(
-      ['withdrawList', 'depositList', 'statusTime'].map(async methodName => {
-        return await Promise.all(
-          [...new Array(Number(result.totalNode))].map((_, nodeIndex) => nodeContract.methods.nodeIDs(nodeIndex).call())
-        );
-      })
-    );
+    // result.nodeIDs = Promise.all(
+    //   ['withdrawList', 'depositList', 'statusTime'].map(async methodName => {
+    //     return await Promise.all(
+    //       [...new Array(Number(result.totalNode))].map((_, nodeIndex) => nodeContract.methods.nodeIDs(nodeIndex).call())
+    //     );
+    //   })
+    // );
 
     return result;
 
