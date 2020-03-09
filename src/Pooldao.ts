@@ -187,6 +187,19 @@ class Pooldao {
   public getPoolEthBalance(address: string): Promise<string> {
     return this.contracts.PoolETHToken?.contract.methods.balanceOf(address).call();
   }
+
+  public getPoolEthTotalBalance(): Promise<string> {
+    if (!this.contracts.PoolETHToken) throw new Error('not init');
+    return this.web3.eth.getBalance(this.contracts.PoolETHToken.contract.options.address);
+  }
+
+  public getPoolEthRate(): Promise<string> {
+    return this.contracts.PoolETHToken?.contract.methods.poolEthRate().call();
+  }
+
+  public getEthRate(): Promise<string> {
+    return this.contracts.PoolETHToken?.contract.methods.ethRate().call();
+  }
 }
 
 export default Pooldao;
