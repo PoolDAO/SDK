@@ -21,7 +21,7 @@ class Pooldao {
   public user: User;
   public oracle: Oracle;
 
-  constructor({ provider, proxyAddress = '0x3bc5E5f63a91C0B23Ee82733321a971Add3c2Cb7' }: PooldaoOptions = {}) {
+  constructor({ provider, proxyAddress = '0x260Cf0651d02f8139754194Cd3D67CAde3B36b94' }: PooldaoOptions = {}) {
     this.web3 = new Web3(provider);
     this.proxy = new this.web3.eth.Contract(proxyAbi.abi as any, proxyAddress);
     this.contractNames = ['OperatorManager', 'NodeManager', 'Oracle', 'PoolETHToken'];
