@@ -7,7 +7,7 @@ const { Pooldao } = require('@pooldao/js');
 
 async function run() {
   const pooldao = new Pooldao({
-    host: 'http://47.106.144.61:8545',
+    provider: new Web3.providers.HttpProvider('http://47.106.144.61:8545'),
     proxyAddress: '0x1e92877766c94c9913A4EcC90B45E18968dc662D'
   });
 
