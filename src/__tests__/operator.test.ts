@@ -12,7 +12,7 @@ describe('operator', () => {
 
     pooldao = new Pooldao({
       provider: new Web3.providers.HttpProvider('http://47.106.144.61:8545'),
-      proxyAddress: '0x3bc5E5f63a91C0B23Ee82733321a971Add3c2Cb7'
+      proxyAddress: '0x260Cf0651d02f8139754194Cd3D67CAde3B36b94'
     });
 
     await pooldao.init();
